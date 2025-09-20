@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/master.swiftdeps"
+  },
+  "/home/runner/work/roomspace/roomspace/ios/Sources/RoomSpace/ARManager.swift": {
+    "dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ARManager.d",
+    "object": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ARManager.swift.o",
+    "swiftmodule": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ARManager~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ARManager.swiftdeps"
+  },
+  "/home/runner/work/roomspace/roomspace/ios/Sources/RoomSpace/ContentView.swift": {
+    "dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ContentView.d",
+    "object": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ContentView.swift.o",
+    "swiftmodule": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/ContentView.swiftdeps"
+  },
+  "/home/runner/work/roomspace/roomspace/ios/Sources/RoomSpace/RoomSpaceApp.swift": {
+    "dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/RoomSpaceApp.d",
+    "object": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/RoomSpaceApp.swift.o",
+    "swiftmodule": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/RoomSpaceApp~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/roomspace/roomspace/ios/.build/x86_64-unknown-linux-gnu/debug/RoomSpace.build/RoomSpaceApp.swiftdeps"
+  }
+}
