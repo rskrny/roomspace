@@ -225,4 +225,41 @@ router.get('/favorites', authenticateToken, async (req, res) => {
   }
 });
 
+// Remove product from user's favorites
+router.delete('/favorites/:asin', authenticateToken, async (req, res) => {
+  try {
+    const { asin } = req.params;
+
+    if (!asin) {
+      return res.status(400).json({
+        message: 'ASIN is required'
+      });
+    }
+
+    const { supabase } = require('../services/supabase');
+    
+    const { error } = await supabase
+      .from('user_favorites')
+      .delete()
+      .eq('user_id', req.user.userId)
+      .eq('product_asin', asin);
+
+    if (error) {
+      console.error('Failed to remove favorite:', error);
+      return res.status(500).json({
+        message: 'Failed to remove favorite'
+      });
+    }
+
+    res.json({
+      message: 'Product removed from favorites'
+    });
+  } catch (error) {
+    console.error('Remove favorite error:', error);
+    res.status(500).json({
+      message: 'Internal server error'
+    });
+  }
+});
+
 module.exports = router;

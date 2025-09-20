@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-require('dotenv').config();
+const { config, isServiceAvailable } = require('./config/env');
 
 const authRoutes = require('./routes/auth');
 const roomRoutes = require('./routes/rooms');
@@ -9,7 +9,7 @@ const designRoutes = require('./routes/designs');
 const productRoutes = require('./routes/products');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = config.PORT;
 
 // Middleware
 app.use(helmet());
@@ -28,7 +28,15 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '1.0.0',
+    environment: config.NODE_ENV,
+    services: {
+      supabase: isServiceAvailable('supabase'),
+      openai: isServiceAvailable('openai'),
+      amazon: isServiceAvailable('amazon'),
+      google: isServiceAvailable('google'),
+      apple: isServiceAvailable('apple')
+    }
   });
 });
 
@@ -48,8 +56,11 @@ app.use('*', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`RoomSpace Backend Server running on port ${PORT}`);
-});
+// Only start server if not in test environment
+if (config.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`RoomSpace Backend Server running on port ${PORT}`);
+  });
+}
 
 module.exports = app;

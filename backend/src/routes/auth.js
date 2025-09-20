@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const { supabase } = require('../services/supabase');
+const { config, isServiceAvailable } = require('../config/env');
 
 const router = express.Router();
 
@@ -73,7 +74,7 @@ router.post('/register', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { userId: user.id, email: user.email },
-      process.env.JWT_SECRET,
+      config.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -132,7 +133,7 @@ router.post('/login', async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { userId: user.id, email: user.email },
-      process.env.JWT_SECRET,
+      config.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -156,14 +157,32 @@ router.post('/login', async (req, res) => {
 
 // Social auth placeholder endpoints
 router.post('/google', (req, res) => {
+  if (!isServiceAvailable('google')) {
+    return res.status(501).json({
+      message: 'Google authentication not configured',
+      details: 'Missing GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET environment variables'
+    });
+  }
+  
+  // TODO: Implement Google OAuth flow
   res.status(501).json({
-    message: 'Google authentication not implemented yet'
+    message: 'Google authentication not implemented yet',
+    details: 'OAuth integration requires additional implementation'
   });
 });
 
 router.post('/apple', (req, res) => {
+  if (!isServiceAvailable('apple')) {
+    return res.status(501).json({
+      message: 'Apple Sign In not configured',
+      details: 'Missing APPLE_CLIENT_ID, APPLE_KEY_ID, and APPLE_TEAM_ID environment variables'
+    });
+  }
+  
+  // TODO: Implement Apple Sign In flow
   res.status(501).json({
-    message: 'Apple authentication not implemented yet'
+    message: 'Apple authentication not implemented yet',
+    details: 'Apple Sign In integration requires additional implementation'
   });
 });
 
