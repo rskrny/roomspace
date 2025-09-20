@@ -8,7 +8,8 @@
     "dev": "nodemon src/server.js",
     "test": "jest",
     "lint": "eslint src/",
-    "lint:fix": "eslint src/ --fix"
+    "lint:fix": "eslint src/ --fix",
+    "setup": "node setup.js"
   },
   "keywords": ["interior-design", "ar", "api", "nodejs", "express"],
   "author": "RoomSpace Team",

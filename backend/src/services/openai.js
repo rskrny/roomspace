@@ -1,11 +1,20 @@
 const OpenAI = require('openai');
+const { config, isServiceAvailable } = require('../config/env');
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai;
+if (isServiceAvailable('openai')) {
+  openai = new OpenAI({
+    apiKey: config.OPENAI_API_KEY,
+  });
+}
 
 const generateDesign = async ({ room, style, budget, preferences = {} }) => {
   try {
+    // Check if OpenAI is available
+    if (!isServiceAvailable('openai') || !openai) {
+      console.log('OpenAI service not available, using fallback design');
+      return getFallbackDesign(room, style, budget, preferences);
+    }
     const prompt = `
       Create an interior design layout for a ${room.room_type} with the following specifications:
       
@@ -102,36 +111,40 @@ const generateDesign = async ({ room, style, budget, preferences = {} }) => {
     }
   } catch (error) {
     console.error('OpenAI API error:', error);
-    
-    // Fallback design data
-    return {
-      layout: {
-        description: `${style} design for your ${room.room_type}`,
-        zones: [
-          {
-            name: "Main seating area",
-            furniture: ["Sofa", "Coffee table"],
-            position: { x: 0, y: 0, rotation: 0 }
-          }
-        ]
-      },
-      furnitureItems: [
-        {
-          name: `${style} Sofa`,
-          category: "Seating",
-          estimatedPrice: Math.floor(budget.max * 0.4),
-          position: { x: 0, y: 0, z: 0 },
-          dimensions: { width: 72, depth: 36, height: 32 },
-          searchTerms: [style.toLowerCase(), "sofa", room.room_type]
-        }
-      ],
-      colorScheme: getStyleColors(style),
-      lighting: ["Natural light", "Floor lamps"],
-      accessories: ["Throw pillows", "Wall art"],
-      totalCost: Math.floor((budget.min + budget.max) / 2),
-      error: 'Used fallback design due to AI service error'
-    };
+    return getFallbackDesign(room, style, budget, preferences);
   }
+};
+
+const getFallbackDesign = (room, style, budget, preferences) => {
+  // Fallback design data when OpenAI is not available
+  return {
+    layout: {
+      description: `${style} design for your ${room.room_type}`,
+      zones: [
+        {
+          name: "Main seating area",
+          furniture: ["Sofa", "Coffee table"],
+          position: { x: 0, y: 0, rotation: 0 }
+        }
+      ]
+    },
+    furnitureItems: [
+      {
+        name: `${style} Sofa`,
+        category: "Seating",
+        estimatedPrice: Math.floor(budget.max * 0.4),
+        position: { x: 0, y: 0, z: 0 },
+        dimensions: { width: 72, depth: 36, height: 32 },
+        searchTerms: [style.toLowerCase(), "sofa", room.room_type]
+      }
+    ],
+    colorScheme: getStyleColors(style),
+    lighting: ["Natural light", "Floor lamps"],
+    accessories: ["Throw pillows", "Wall art"],
+    totalCost: Math.floor((budget.min + budget.max) / 2),
+    fallback: true,
+    message: 'Generated using fallback design (OpenAI service unavailable)'
+  };
 };
 
 const getStyleColors = (style) => {

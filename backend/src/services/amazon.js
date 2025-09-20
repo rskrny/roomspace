@@ -2,6 +2,8 @@
 // In a real implementation, you would use the official Amazon PAAPI SDK
 // For now, this returns mock data for development/testing purposes
 
+const { config, isServiceAvailable } = require('../config/env');
+
 const searchAmazonProducts = async ({ keywords, category, minPrice, maxPrice, sortBy }) => {
   try {
     // This is a placeholder implementation
@@ -29,7 +31,7 @@ const searchAmazonProducts = async ({ keywords, category, minPrice, maxPrice, so
           'Easy assembly',
           'Modern design'
         ],
-        affiliate_url: `https://amazon.com/dp/B08MOCK001?tag=${process.env.AMAZON_PARTNER_TAG}`,
+        affiliate_url: `https://amazon.com/dp/B08MOCK001?tag=${config.AMAZON_PARTNER_TAG}`,
         availability: 'In Stock'
       },
       {
@@ -50,7 +52,7 @@ const searchAmazonProducts = async ({ keywords, category, minPrice, maxPrice, so
           'Professional assembly available',
           'Designer approved'
         ],
-        affiliate_url: `https://amazon.com/dp/B08MOCK002?tag=${process.env.AMAZON_PARTNER_TAG}`,
+        affiliate_url: `https://amazon.com/dp/B08MOCK002?tag=${config.AMAZON_PARTNER_TAG}`,
         availability: 'In Stock'
       },
       {
@@ -71,7 +73,7 @@ const searchAmazonProducts = async ({ keywords, category, minPrice, maxPrice, so
           'Good value for money',
           'Basic assembly required'
         ],
-        affiliate_url: `https://amazon.com/dp/B08MOCK003?tag=${process.env.AMAZON_PARTNER_TAG}`,
+        affiliate_url: `https://amazon.com/dp/B08MOCK003?tag=${config.AMAZON_PARTNER_TAG}`,
         availability: 'Limited Stock'
       }
     ];
